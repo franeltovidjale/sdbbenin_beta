@@ -9,7 +9,6 @@ use App\Models\ProductionOutput;
 use App\Models\TypeProduction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -171,53 +170,6 @@ class DashboardController extends Controller
         } catch (\Exception $e) {
             // Si la table n'existe pas encore ou si le champ status n'existe pas
         }
-
-        // ==================== DONNÉES POUR LE GRAPHIQUE ====================
-        
-        // Préparer les données pour le graphique des 12 dernières semaines
-        $chartData = [];
-        $chartLabels = [];
-        $productionsData = [];
-        $cartonsData = [];
-        
-        for ($i = 11; $i >= 0; $i--) {
-            $startDate = Carbon::now()->subWeeks($i)->startOfWeek();
-            $endDate = Carbon::now()->subWeeks($i)->endOfWeek();
-            
-            // Label de la semaine
-            $chartLabels[] = $startDate->format('d/m');
-            
-            // Nombre de productions cette semaine
-            $productionsCount = Production::whereBetween('created_at', [$startDate, $endDate])->count();
-            $productionsData[] = $productionsCount;
-            
-            // Nombre de cartons produits cette semaine
-            $cartonsCount = ProductionOutput::whereBetween('created_at', [$startDate, $endDate])
-                ->sum('carton_count') ?? 0;
-            $cartonsData[] = $cartonsCount;
-        }
-        
-        $chartData = [
-            'labels' => $chartLabels,
-            'datasets' => [
-                [
-                    'label' => 'Productions',
-                    'data' => $productionsData,
-                    'borderColor' => 'rgb(59, 130, 246)',
-                    'backgroundColor' => 'rgba(59, 130, 246, 0.1)',
-                    'tension' => 0.1,
-                    'yAxisID' => 'y'
-                ],
-                [
-                    'label' => 'Cartons produits',
-                    'data' => $cartonsData,
-                    'borderColor' => 'rgb(16, 185, 129)',
-                    'backgroundColor' => 'rgba(16, 185, 129, 0.1)',
-                    'tension' => 0.1,
-                    'yAxisID' => 'y1'
-                ]
-            ]
-        ];
         
         return view('dashboard.index', compact(
             'totalProductions',
@@ -233,8 +185,7 @@ class DashboardController extends Controller
             'topArticles',
             'productionsByType',
             'recentCompletedProductions',
-            'lowStockThreshold',
-            'chartData' // AJOUTÉ
+            'lowStockThreshold'
         ));
     }
 }

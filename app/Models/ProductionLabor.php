@@ -13,8 +13,8 @@ class ProductionLabor extends Model
         'production_id',
         'workers_count',
         'worker_price',
-        'additional_labor',  
-        'additional_cost'
+        'description',  
+      
     ];
     
     public function production()

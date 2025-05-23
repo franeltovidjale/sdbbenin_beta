@@ -125,6 +125,20 @@
             transform: translateZ(0);
             -webkit-font-smoothing: subpixel-antialiased;
         }
+
+        /* === CORRECTION CRITIQUE POUR LE SCROLL HORIZONTAL === */
+        .main-content-container {
+            /* Permettre le scroll horizontal pour les tableaux */
+            overflow-x: auto;
+            overflow-y: auto;
+            min-height: 0; /* Important pour flexbox */
+        }
+
+        /* Style spécifique pour les pages avec tableaux larges */
+        .table-page {
+            overflow-x: auto !important;
+            overflow-y: auto !important;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -216,10 +230,7 @@
                             <i class="fas fa-sitemap w-5 text-blue-300 group-hover:text-white transition-colors"></i>
                             <span class="ml-2">Types de production</span>
                         </a>
-                        <a href="{{ route('production.stats') }}" class="flex items-center py-2 px-4 rounded-md transition-all duration-200 hover:bg-navy-700 group my-1 no-shift">
-                            <i class="fas fa-chart-column w-5 text-blue-300 group-hover:text-white transition-colors"></i>
-                            <span class="ml-2">Statistiques</span>
-                        </a>
+                       
                     </div>
                 </div>
 
@@ -241,29 +252,11 @@
                     </div>
                 </div>
 
-                 <!-- Gestion des ventes de production -->
-                 {{-- <div class="mb-2">
-                    <div id="salesMenuHeader" class="nav-link flex items-center justify-between py-3 px-4 rounded-md transition-all duration-200 hover:bg-navy-700 cursor-pointer group no-shift" onclick="toggleSubmenu('salesMenuSubmenu', 'salesMenuHeader', 'salesMenuArrow')">
-                        <div class="flex items-center">
-                            <i class="fas fa-cash-register w-6 text-blue-300 group-hover:text-white transition-colors"></i>
-                            <span class="ml-3">Gestion des ventes</span>
-                        </div>
-                        <i id="salesMenuArrow" class="fas fa-chevron-down text-sm transition-transform duration-300"></i>
-                    </div>
-                    <div id="salesMenuSubmenu" class="hidden pl-12 mt-1 mb-1 overflow-hidden transition-all duration-300 max-h-0">
-                        <a href="{{ route('productions.sales.index') }}" class="flex items-center py-2 px-4 rounded-md transition-all duration-200 hover:bg-navy-700 group my-1 no-shift">
-                            <i class="fas fa-box w-5 text-blue-300 group-hover:text-white transition-colors"></i>
-                            <span class="ml-2">Ventes de Carton</span>
-                        </a>
-                        <a href="{{ route('productions.sales.reports') }}" class="flex items-center py-2 px-4 rounded-md transition-all duration-200 hover:bg-navy-700 group my-1 no-shift">
-                            <i class="fas fa-file-invoice-dollar w-5 text-blue-300 group-hover:text-white transition-colors"></i>
-                            <span class="ml-2">Bilan des Ventes </span>
-                        </a>
-                        
-                    </div>
-                </div> --}}
-
-               
+                <!-- Clients -->
+                <a href="{{ route('clients.index') }}" class="nav-link flex items-center py-3 px-4 rounded-md transition-all duration-200 hover:bg-navy-700 group mb-2 no-shift">
+                    <i class="fas fa-handshake w-6 text-blue-300 group-hover:text-white transition-colors"></i>
+                    <span class="ml-3">Clients</span>
+                </a>
 
                 
                 <!-- Personnel -->
@@ -276,22 +269,19 @@
                         <i id="personnelMenuArrow" class="fas fa-chevron-down text-sm transition-transform duration-300"></i>
                     </div>
                     <div id="personnelMenuSubmenu" class="hidden pl-12 mt-1 mb-1 overflow-hidden transition-all duration-300 max-h-0">
-                        <a href="" class="flex items-center py-2 px-4 rounded-md transition-all duration-200 hover:bg-navy-700 group my-1 no-shift">
+                        <a href="#" class="flex items-center py-2 px-4 rounded-md transition-all duration-200 hover:bg-navy-700 group my-1 no-shift">
                             <i class="fas fa-people-group w-5 text-blue-300 group-hover:text-white transition-colors"></i>
                             <span class="ml-2">Employés</span>
                         </a>
-                        <a href="" class="flex items-center py-2 px-4 rounded-md transition-all duration-200 hover:bg-navy-700 group my-1 no-shift">
-                            <i class="fas fa-diagram-project w-5 text-blue-300 group-hover:text-white transition-colors"></i>
-                            <span class="ml-2">Départements</span>
+                        <a href="#" class="flex items-center py-2 px-4 rounded-md transition-all duration-200 hover:bg-navy-700 group my-1 no-shift">
+                            <i class="fas fa-network-wired w-5 text-blue-300 group-hover:text-white transition-colors"></i>
+                            <span class="ml-2">Systeme</span>
                         </a>
+                        
                     </div>
                 </div>
                 
-                <!-- Clients -->
-                <a href="" class="nav-link flex items-center py-3 px-4 rounded-md transition-all duration-200 hover:bg-navy-700 group mb-2 no-shift">
-                    <i class="fas fa-handshake w-6 text-blue-300 group-hover:text-white transition-colors"></i>
-                    <span class="ml-3">Clients</span>
-                </a>
+                
                 
                
                 
@@ -317,7 +307,7 @@
         
         <div class="flex-1 flex flex-col ml-0 lg:ml-64 transition-all duration-300 no-shift">
             <!-- Topbar -->
-            <header class="bg-white shadow-md z-20 relative">
+            <header class="bg-white shadow-md z-20 relative flex-shrink-0">
                 <div class="h-1 bg-gradient-to-r from-blue-400 to-blue-600"></div>
                 <div class="flex items-center justify-between px-6 py-3">
                     <!-- Left side: Toggle button for mobile and breadcrumb -->
@@ -328,9 +318,9 @@
                         </button>
                         
                         <!-- Breadcrumb -->
-                        <nav class="text-gray-600 flex items-center">
+                        <nav class="text-gray-600 flex items-center hidden md:flex">
                             <a href="{{ route('dashboard') }}" class="hover:text-blue-700 transition-colors font-medium">Tableau de bord</a>
-                            
+                            @yield('breadcrumb')
                         </nav>
                     </div>
                     
@@ -439,10 +429,10 @@
                 </div>
             </header>
             
-            <!-- Content -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+            <!-- CORRECTION CRITIQUE : Conteneur principal avec overflow autorisé -->
+            <main class="flex-1 main-content-container bg-gray-100 p-6 min-h-0">
                 <!-- Page header -->
-                <div class="mb-6">
+                <div class="mb-6 flex-shrink-0">
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                         <div>
                             <h1 class="text-2xl font-bold text-navy-800">@yield('page-title', 'Tableau de bord')</h1>
@@ -459,13 +449,13 @@
                 </div>
                 
                 <!-- Content goes here -->
-                <div class="animate-fadeIn">
+                <div class="animate-fadeIn flex-1 min-h-0">
                     @yield('content')
                 </div>
             </main>
             
             <!-- Footer -->
-            <footer class="bg-white py-4 px-6 border-t">
+            <footer class="bg-white py-4 px-6 border-t flex-shrink-0">
                 <div class="container mx-auto">
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between text-gray-600 text-sm">
                         <div>

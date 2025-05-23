@@ -2,17 +2,18 @@
 
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategorieController;
-use App\Http\Controllers\DashboardController;
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ShowUsersController;
 use App\Http\Controllers\InvitationCodeController;
 use App\Http\Controllers\OtpVerificationController;
 use App\Http\Controllers\Articles\ArticleController;
 use App\Http\Controllers\Productions\ProductionController;
-use App\Http\Controllers\Articles\ArticleMovementController;
 
+use App\Http\Controllers\Articles\ArticleMovementController;
 use App\Http\Controllers\Articles\CategorieArticleController;
 use App\Http\Controllers\Productions\ProductionSaleController;
 use App\Http\Controllers\Productions\TypeProductionController;
@@ -201,6 +202,13 @@ Route::prefix('articles')->name('stock.')->group(function () {
     Route::delete('/movements/{movement}', [ArticleMovementController::class, 'destroy'])->name('movements.destroy');
     Route::post('/movements/validate', [ArticleMovementController::class, 'validateArticleMovement'])->name('movements.validate');
     Route::post('/movements/reject', [ArticleMovementController::class, 'reject'])->name('movements.reject');
+});
+
+
+// Routes pour la gestion des clients
+Route::prefix('clients')->name('clients.')->group(function () {
+    Route::get('/', [ClientController::class, 'index'])->name('index');
+    Route::get('/{name}/{firstname}', [ClientController::class, 'show'])->name('show');
 });
 
 

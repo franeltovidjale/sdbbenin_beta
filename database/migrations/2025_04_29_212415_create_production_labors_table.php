@@ -18,6 +18,7 @@ return new class extends Migration
                   ->onDelete('cascade');
             $table->unsignedInteger('workers_count');
             $table->unsignedDecimal('worker_price', 10, 2);
+            $table->text('description')->nullable(); // NOUVEAU CHAMP
             $table->timestamps();
         });
     }

@@ -72,6 +72,7 @@
                             </div>
                             
                             <!-- Menu à trois points -->
+                            @if($production->status == 'en cours')
                             <div class="relative" x-data="{ open: false }">
                                 <button @click="open = !open" @click.away="open = false" class="p-1 rounded-full hover:bg-gray-100 focus:outline-none">
                                     <i class="fas fa-ellipsis-v text-gray-500"></i>
@@ -91,6 +92,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
                         
                         <!-- Contenu de la carte -->
@@ -113,8 +115,8 @@
                     
                     <!-- Pied de carte -->
                     <div class="mt-auto border-t border-gray-200">
-                        <a href="{{ route('production.edit', $production->id) }}" class="block w-full text-center py-2 text-blue-600 hover:bg-blue-50 transition-colors">
-                            Voir les détails
+                        <a href="{{ route('production.show', $production->id) }}" class="block w-full text-center py-2 text-blue-600 hover:bg-blue-50 transition-colors">
+                            Voir la production
                         </a>
                     </div>
                 </div>
